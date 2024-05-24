@@ -135,6 +135,23 @@ def multiple_same_freq(dependent_var, predictors, predictor_names):
 
     return model.summary(), merged_data
 
+# Research Question 1
+warnings.filterwarnings("ignore", category=UserWarning, module='statsmodels')
+# M2 and GDP
+# Merge and calculate the predicted GDP
+
+M2V.rename(columns={'VALUE': 'M2V'}, inplace=True)
+
+predict_GDP = pd.merge(M2, M2V, on='DATE', how='inner')
+predict_GDP['WM2NS'] = pd.to_numeric(predict_GDP['WM2NS'], errors='coerce')
+predict_GDP['M2V'] = pd.to_numeric(predict_GDP['M2V'], errors='coerce')
+predict_GDP['predict'] = predict_GDP['WM2NS']* predict_GDP['M2V']
+predict_GDP = pd.merge(predict_GDP, GDP, on='DATE', how='inner')
+predict_GDP = pd.merge(predict_GDP, GDP, on='DATE', how='inner')
+print(predict_GDP)
+
+plot_close(predict_GDP)
+
 
 # Research Question 2 -- Model 1
 dependent_var = consumption[['DATE', 'PCE']]
