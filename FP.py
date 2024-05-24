@@ -33,6 +33,7 @@ new_gov_securities['TREAST'] = new_gov_securities['TREAST'] * 0.001
 #print(new_gov_securities)
 #print(income)
 
+
 # Research Question 1 -- Function
 import warnings
 import pandas as pd
@@ -134,6 +135,7 @@ def multiple_same_freq(dependent_var, predictors, predictor_names):
     model = sm.OLS(Y.astype(float), X.astype(float)).fit()
 
     return model.summary(), merged_data
+
 
 # Research Question 1
 warnings.filterwarnings("ignore", category=UserWarning, module='statsmodels')
