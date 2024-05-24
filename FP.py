@@ -33,7 +33,38 @@ new_gov_securities['TREAST'] = new_gov_securities['TREAST'] * 0.001
 #print(new_gov_securities)
 #print(income)
 
+# Research Question 1 -- Function
+import warnings
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
+from pandas.tseries.offsets import DateOffset
 
+warnings.filterwarnings("ignore", category=UserWarning, module='statsmodels')
+
+def plot_close(df: pd.DataFrame, start: str = '1981-01-01', end: str = '2024-01-01') -> None:
+    if 'DATE' not in df.columns:
+        print("Error: 'DATE' column not found in DataFrame.")
+        return
+
+    df['DATE'] = pd.to_datetime(df['DATE'])
+    df.set_index('DATE', inplace=True)
+    df = df.loc[start:end]
+    
+    if df.empty:
+        print("DataFrame is empty for the specified date range.")
+        return
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(df.index, df['predict'], color='blue', label='Predicted', linestyle='--', alpha=0.5)
+    plt.plot(df.index, df['VALUE_y'], color='red', label='True', linestyle='-', alpha=0.5)
+    plt.title(f'Predicted GDP VS True GDP from {start} to {end}')
+    plt.xlabel('Date')
+    plt.ylabel('Billions of Dollars')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
 
 
 # Multiple Linear Regression -- Function
