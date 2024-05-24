@@ -135,4 +135,36 @@ print(multiple_same_freq(GDP, predictors, predictor_names))
 
 
 
+# Research Question 3 -- Forcasting
+
+# Select the GDP column (assuming it is named 'GDP' or similar)
+gdp = predict_GDP['VALUE_y'] 
+
+# Fit ARIMA model
+model = ARIMA(gdp, order=(0, 2, 2))
+model_fit = model.fit()
+
+# Forecast
+forecast_steps = 50
+forecast = model_fit.get_forecast(steps=forecast_steps)
+forecast_index = pd.date_range(start=gdp.index[-1], periods=forecast_steps + 1, freq='Q')[1:]
+
+# Extract forecast mean and confidence intervals
+forecast_mean = forecast.predicted_mean
+forecast_ci = forecast.conf_int()
+
+# Plot
+plt.figure(figsize=(10, 5))
+plt.plot(gdp, label='Observed')
+plt.plot(forecast_index, forecast_mean, label='Forecast', color='r')
+plt.fill_between(forecast_index, forecast_ci.iloc[:, 0], forecast_ci.iloc[:, 1], color='pink', alpha=0.3)
+plt.xlabel('Date')
+plt.ylabel('GDP (Billions of Dollars)')
+plt.title('GDP Forecast')
+plt.legend()
+plt.show()
+
+
+
+
 
